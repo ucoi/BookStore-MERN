@@ -55,6 +55,34 @@ app.get("/books/:id", async (req, res) => {
     res.status(400).send("Bad Request");
   }
 });
+
+app.put("/books/:id", async (req, res) => {
+  try {
+    if (!req.body.title || !req.body.author || !req.body.publishYear) {
+      return res.status(400).send("Send all required Fields");
+    }
+    const { id } = req.params;
+    const result = await Book.findByIdAndUpdate(id, req.body);
+    if (!result) {
+      res.send("Book not found").status(404);
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+app.delete("books/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await Book.findOneAndDelete(id);
+    if (!result) {
+      res.send("Book not found").status(404);
+    }
+    res.send("Book Deleted").status(200);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send("Bad Request");
+  }
+});
 mongoose
   .connect(db)
   .then(() => {
