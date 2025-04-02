@@ -7,13 +7,14 @@ import cors from "cors";
 const app = express();
 app.use(express.json());
 app.use("/books", bookRouter);
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type"],
-  })
-);
+app.use(cors());
+// app.use(
+//   cors({
+//     origin: "*",
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     allowedHeaders: ["Content-Type"],
+//   })
+// );
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
@@ -28,6 +29,5 @@ mongoose
     console.log("Connected to MongoDB");
   })
   .catch((error) => {
-    console.log("Error connecting to MongoDB");
     console.log(error);
   });
